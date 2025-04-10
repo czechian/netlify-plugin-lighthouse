@@ -92,7 +92,7 @@ const runEvent = async ({
       }
 
       if (Array.isArray(errors) && errors.length > 0) {
-        allErrors.push({ serveDir, url, errors, fullPath, summary });
+        allErrors.push({ serveDir, url, errors });
       }
 
       data.push({
@@ -103,6 +103,7 @@ const runEvent = async ({
         details,
         report,
         runtimeError,
+        errors,
       });
     }
 
@@ -111,10 +112,13 @@ const runEvent = async ({
       errors: allErrors,
     });
 
-    console.log(allErrors.map(page => {
+    const csvHeader = "URL,Performance,Accessibility,Best Practices,SEO,PWA,Errors\n";
+
+    console.log(csvHeader + data.map(page => {
       const scores = page.summary.map(summary => Math.floor(summary.score * 100));
-      return `${page.url}${page.fullPath},${scores.join(",")}`
-    }));
+      const errors = page.errors.map(error => error.details);
+      return `${page.url}${page.path},${scores.join(",")},${errors.join("")}`;
+    }).join("\n"));
 
     errorMetadata.push(...extraData);
 
