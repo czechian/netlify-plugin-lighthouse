@@ -92,7 +92,7 @@ const runEvent = async ({
       }
 
       if (Array.isArray(errors) && errors.length > 0) {
-        allErrors.push({ serveDir, url, errors, fullPath });
+        allErrors.push({ serveDir, url, errors, fullPath, summary });
       }
 
       data.push({
@@ -111,7 +111,10 @@ const runEvent = async ({
       errors: allErrors,
     });
 
-    console.log(allErrors);
+    console.log(allErrors.map(page => {
+      const scores = page.summary.map(summary => Math.floor(summary.score * 100));
+      return `${page.url}${page.fullPath},${scores.join(",")}`
+    }));
 
     errorMetadata.push(...extraData);
 
