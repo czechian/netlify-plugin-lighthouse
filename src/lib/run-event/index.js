@@ -92,7 +92,7 @@ const runEvent = async ({
       }
 
       if (Array.isArray(errors) && errors.length > 0) {
-        allErrors.push({ serveDir, url, errors });
+        allErrors.push({ serveDir, url, errors, fullPath });
       }
 
       data.push({
