@@ -111,6 +111,8 @@ const runEvent = async ({
       errors: allErrors,
     });
 
+    console.log(allErrors);
+
     errorMetadata.push(...extraData);
 
     if (error && Object.keys(error).length !== 0) {
